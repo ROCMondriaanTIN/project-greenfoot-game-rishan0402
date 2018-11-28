@@ -67,6 +67,7 @@ public class Hero extends Mover {
             }
         }
     }
+
     boolean onGround(){
         Actor under = getOneObjectAtOffset(0, getImage().getHeight()/2, Tile.class);
         return under != null;
@@ -76,6 +77,7 @@ public class Hero extends Mover {
         if (Greenfoot.isKeyDown("w") && (onGround() == true)) {
             velocityY = -15;
             setImage("p1_jump.png");
+
         }
 
         else if (Greenfoot.isKeyDown("a")) {
