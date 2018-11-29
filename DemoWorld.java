@@ -41,7 +41,7 @@ public class DemoWorld extends World {
 
         // initialiseren van de TileEngine klasse om de map aan de world toe te voegen
         te = new TileEngine(this, 60, 60);
-        te.setTileFactory(new DemoTileFactory());
+        te.setTileFactory(new TileFactory());
         te.setMap(map);
 
         // Declarenre en initialiseren van de camera klasse met de TileEngine klasse 

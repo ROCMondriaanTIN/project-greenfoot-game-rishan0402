@@ -1,5 +1,6 @@
 
 import greenfoot.*;
+import java.util.List;
 
 /**
  *
@@ -38,13 +39,19 @@ public class Hero extends Mover {
     private int frame = 1;
     private int speed = 3;
     private boolean onGround;
+    private CollisionEngine collisionEngine;
+    private TileEngine tileEngine;
 
-    public Hero() {
+
+    public Hero(CollisionEngine collisionEngine, TileEngine tileEngine) {
         super();
+        this.collisionEngine = collisionEngine;
+        this.tileEngine = tileEngine;
         gravity = 9.8;
         acc = 0.5;
         drag = 0.6;
         setImage("p1_front.png");
+        
         
    
     }
@@ -62,11 +69,36 @@ public class Hero extends Mover {
 
         for (Actor enemy : getIntersectingObjects(Enemy.class)) {
             if (enemy != null) {
-                setLocation(96, 915);
+                setLocation(92, 1333);
                 break;
             }
         }
+        List<Tile> tiles = collisionEngine.getCollidingTiles(this, true);
+
+        for (Tile tile : tiles) {
+            if (tile != null) {
+                if (tile.type == TileType.WATER) {
+                    getWorld().removeObject(this);
+                    // Met return eindig je deze methode en loop
+                    // Aangezien wij niet meer in de world zitten willen wij geen
+                    // Methodes met de world of andere checks uitvoeren.
+                    return;
+                } else if (tile.type == TileType.BOX) {
+                    // Op deze manier kan je nu tiles verwijderen
+                    // Zie ook de andere removeTile methodes die zijn toegevoegd
+                    tileEngine.removeTile(tile);
+                }
+            }
+        }
+
+         
+        
+
     }
+    
+
+    
+            
 
     boolean onGround(){
         Actor under = getOneObjectAtOffset(0, getImage().getHeight()/2, Tile.class);
@@ -77,6 +109,7 @@ public class Hero extends Mover {
         if (Greenfoot.isKeyDown("w") && (onGround() == true)) {
             velocityY = -15;
             setImage("p1_jump.png");
+            
 
         }
 
