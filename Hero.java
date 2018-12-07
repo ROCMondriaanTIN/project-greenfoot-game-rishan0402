@@ -75,39 +75,40 @@ public class Hero extends Mover {
         }
         List<Tile> tiles = collisionEngine.getCollidingTiles(this, true);
 
-        for (Tile tile : tiles) {
+            for (Tile tile : tiles) {
             if (tile != null) {
-                if (tile.type == TileType.WATER) {
-                    getWorld().removeObject(this);
-                    // Met return eindig je deze methode en loop
-                    // Aangezien wij niet meer in de world zitten willen wij geen
-                    // Methodes met de world of andere checks uitvoeren.
+                if (tile.type == TileType.LIQUID) {
+                    setLocation(92, 1333);
                     return;
-                } else if (tile.type == TileType.BOX) {
-                    // Op deze manier kan je nu tiles verwijderen
-                    // Zie ook de andere removeTile methodes die zijn toegevoegd
+                } else if (tile.type == TileType.COIN) {
                     tileEngine.removeTile(tile);
+                    return;
                 }
-            }
-        }
+                else if (tile.type == TileType.LAVA) {
+                    setLocation(42, 2113);
+                    return;
+                }
+
 
          
         
 
-    }
+                }
+      }
+}  
     
 
     
             
 
-    boolean onGround(){
+         boolean onGround(){
         Actor under = getOneObjectAtOffset(0, getImage().getHeight()/2, Tile.class);
         return under != null;
         }
         
     public void handleInput() { 
         if (Greenfoot.isKeyDown("w") && (onGround() == true)) {
-            velocityY = -15;
+            velocityY = -14;
             setImage("p1_jump.png");
             
 
@@ -121,8 +122,15 @@ public class Hero extends Mover {
             velocityX = 10;
             animatieRight();
         }
+        if(Greenfoot.isKeyDown("Control") && (Greenfoot.isKeyDown("r"))) {
+            Greenfoot.setWorld(new MyWorld());
         
     }
+    if(Greenfoot.isKeyDown("Control") && (Greenfoot.isKeyDown("p"))) {
+            Greenfoot.setWorld(new MyWorld2());
+        }
+        
+}
     
 
     
